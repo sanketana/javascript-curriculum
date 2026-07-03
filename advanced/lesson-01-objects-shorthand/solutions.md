@@ -27,7 +27,7 @@ const villains = [
   { name: "Eren",    anime: "Attack on Titan",  power: 9800,  role: "Titan" },
 ];
 
-console.log(`There are ${villains.length} villains.`);   // There are 3 villains.
+console.log("There are " + villains.length + " villains.");   // There are 3 villains.
 ```
 
 `length` counts the items in the array — here, three whole objects.

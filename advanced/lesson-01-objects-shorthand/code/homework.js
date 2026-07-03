@@ -16,7 +16,7 @@
 // (same four keys). Then log how many villains there are.
 
 // const villains = ...
-// console.log(`There are ${villains.length} villains.`);
+// console.log("There are " + villains.length + " villains.");
 
 
 // --- Task 3: property shorthand ---

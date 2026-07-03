@@ -24,7 +24,7 @@ const characters = [
   { name: "Nezuko", anime: "Demon Slayer",    power: 7200, role: "Demon"   },
 ];
 
-console.log(`We have ${characters.length} characters.`);
+console.log("We have " + characters.length + " characters.");
 console.log(characters[0].name);   // first character's name: pick the item, then the property
 
 // 3. Property shorthand.
