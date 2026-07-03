@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hero Creator — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1220;
+      color: #e8e9f3;
+    }
+    header { padding: 24px; text-align: center; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    #roster {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #1b1f36;
+      border: 1px solid #2b3157;
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .card h2 { margin: 0 0 4px; font-size: 1.1rem; }
+    .card .cls { margin: 0 0 10px; color: #9aa0c3; font-size: 0.85rem; }
+    .card p { margin: 4px 0; color: #b9bee0; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Hero Creator</h1>
+    <p>Extra practice — spread + defaults, one step further</p>
+  </header>
+
+  <main id="roster"></main>
+
+  <script>
+    // Hero Creator — extra practice for Session 3.
+    // Same tools as today: object spread, defaults, and destructuring.
+    // The step up: the {...defaults, ...custom} merge pattern that real apps
+    // (and every framework's "props with defaults") use everywhere.
+
+    const defaultHero = {
+      name: "Unnamed",
+      class: "Novice",
+      weapon: "Fists",
+      hp: 100,
+      color: "#6c5ce7",
+    };
+
+    // Start from the defaults, then let the custom values OVERRIDE them.
+    // Order matters: custom comes SECOND, so it wins any key it repeats.
+    function makeHero(custom) {
+      return { ...defaultHero, ...custom };
+    }
+
+    const roster = [
+      makeHero({ name: "Kaze", class: "Ninja", weapon: "Katana", color: "#00b894" }),
+      makeHero({ name: "Bolt", class: "Mage", hp: 70, color: "#0984e3" }),
+      makeHero({ name: "Rook" }),   // only the name is custom; everything else defaults
+    ];
+
+    function heroCard(hero) {
+      // "class" is a reserved word in JavaScript, so we RENAME it while
+      // destructuring: pull the "class" key into a variable called heroClass.
+      const { name, class: heroClass, weapon, hp, color } = hero;
+      return `
+        <div class="card" style="border-top: 4px solid ${color}">
+          <h2>${name}</h2>
+          <p class="cls">${heroClass}</p>
+          <p>Weapon: ${weapon}</p>
+          <p>HP: ${hp}</p>
+        </div>
+      `;
+    }
+
+    const rosterEl = document.querySelector("#roster");
+    let html = "";
+    for (const hero of roster) {
+      html += heroCard(hero);
+    }
+    rosterEl.innerHTML = html;
+  </script>
+</body>
+</html>
