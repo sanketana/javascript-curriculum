@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Store — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1220;
+      color: #e8e9f3;
+    }
+    header { padding: 24px; text-align: center; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    #store {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .card {
+      position: relative;
+      background: #1b1f36;
+      border: 1px solid #2b3157;
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: #ffd166;
+      color: #1b1f36;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 99px;
+      letter-spacing: 0.04em;
+    }
+    .card h2 { margin: 0 0 4px; font-size: 1.1rem; padding-right: 70px; }
+    .card .genre { margin: 0 0 10px; color: #9aa0c3; font-size: 0.85rem; }
+    .card .rating { margin: 4px 0; color: #b9bee0; font-size: 0.9rem; }
+    .card .price { margin: 8px 0 0; font-size: 1.15rem; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Game Store</h1>
+    <p>Extra practice — template literals, one step further</p>
+  </header>
+
+  <main id="store"></main>
+
+  <script>
+    // Game Store — extra practice for Session 2.
+    // Same tools as today: objects, a loop, and template literals.
+    // The step up: put real EXPRESSIONS inside ${ }, including a conditional badge.
+
+    const games = [
+      { title: "Stellar Drift", genre: "Space RPG",  price: 1499, rating: 9.2 },
+      { title: "Neon Alley",    genre: "Fighting",   price: 999,  rating: 7.8 },
+      { title: "Pixel Peaks",   genre: "Platformer", price: 599,  rating: 8.7 },
+      { title: "Deep Circuit",  genre: "Puzzle",     price: 349,  rating: 8.9 },
+    ];
+
+    function gameCard(g) {
+      // A ${ } can hold ANY expression. Here a ternary decides whether a badge
+      // appears at all: high-rated games get one, the rest get an empty string.
+      const badge = g.rating >= 8.5 ? `<span class="badge">TOP RATED</span>` : "";
+
+      return `
+        <div class="card">
+          ${badge}
+          <h2>${g.title}</h2>
+          <p class="genre">${g.genre}</p>
+          <p class="rating">Rating: ${g.rating.toFixed(1)} / 10</p>
+          <p class="price">₹${g.price}</p>
+        </div>
+      `;
+    }
+
+    const store = document.querySelector("#store");
+    let html = "";
+    for (const g of games) {
+      html += gameCard(g);
+    }
+    store.innerHTML = html;
+  </script>
+</body>
+</html>
