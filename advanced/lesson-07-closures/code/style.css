@@ -1,0 +1,52 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #1b1f36;
+  color: #e8e9f3;
+}
+
+header { padding: 24px; text-align: center; }
+header h1 { margin: 0 0 4px; }
+header p { margin: 0; color: #9aa0c3; }
+
+main { max-width: 640px; margin: 0 auto; padding: 24px; text-align: center; }
+
+#arena {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.player {
+  background: #12162a;
+  border: 1px solid #2b3157;
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 200px;
+}
+
+.player h2 { margin: 0 0 8px; font-size: 1.1rem; }
+
+.player .score {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #a29bfe;
+  margin: 0 0 12px;
+}
+
+.player button {
+  padding: 8px 14px;
+  margin: 4px;
+  border: none;
+  border-radius: 8px;
+  background: #6c5ce7;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+.player button:hover { background: #5a4bd1; }
+
+.hint { margin-top: 28px; color: #7f86b0; font-size: 0.85rem; }

@@ -35,7 +35,7 @@ Status values: `todo` · `done`
 |---|-------|--------|
 | 5 | arrow & anonymous functions + higher-order functions | done |
 | 6 | callbacks *(explainer)* | done |
-| 7 | closures *(explainer)* | todo |
+| 7 | closures *(explainer)* | done |
 | 8 | `this` *(explainer)* + mini-build | todo |
 
 ### Arc C — Data Wrangling · *Leaderboard / Playlist Analyzer*

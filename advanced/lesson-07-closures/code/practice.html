@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guessing Game — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #1b1f36;
+      color: #e8e9f3;
+      text-align: center;
+    }
+    header { padding: 24px; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    main { max-width: 420px; margin: 0 auto; padding: 24px; }
+    input {
+      width: 120px;
+      padding: 10px;
+      font-size: 1.1rem;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid #2b3157;
+      background: #12162a;
+      color: #e8e9f3;
+    }
+    button {
+      padding: 10px 16px;
+      margin: 6px;
+      border: none;
+      border-radius: 8px;
+      background: #6c5ce7;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #5a4bd1; }
+    #message { font-size: 1.2rem; min-height: 1.5em; margin-top: 16px; color: #a29bfe; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Guess the Number</h1>
+    <p>Extra practice — closures, one step further (privacy)</p>
+  </header>
+
+  <main>
+    <p>I'm thinking of a number from 1 to 100.</p>
+    <input id="guess" type="number" min="1" max="100" />
+    <button id="submit">Guess</button>
+    <button id="restart">New game</button>
+    <p id="message"></p>
+  </main>
+
+  <script>
+    // Guessing Game — extra practice for Session 7.
+    // Same tools as today: closures. The step up: the closure holds TWO private
+    // values (the secret and the try count), and "New game" builds a fresh
+    // closure. There is genuinely no way to read the secret from outside — that
+    // is closure privacy doing real work.
+
+    const makeGame = () => {
+      const secret = 1 + Math.floor(Math.random() * 100);   // private forever
+      let tries = 0;
+      return (guess) => {
+        tries = tries + 1;
+        if (guess === secret) return "Correct! You got it in " + tries + " tries.";
+        if (guess < secret) return "Too low. (try " + tries + ")";
+        return "Too high. (try " + tries + ")";
+      };
+    };
+
+    let play = makeGame();
+
+    const guess = document.querySelector("#guess");
+    const message = document.querySelector("#message");
+
+    document.querySelector("#submit").addEventListener("click", () => {
+      const value = Number(guess.value);
+      if (!value) {
+        message.textContent = "Type a number first.";
+        return;
+      }
+      message.textContent = play(value);
+    });
+
+    document.querySelector("#restart").addEventListener("click", () => {
+      play = makeGame();          // a brand-new closure with a brand-new secret
+      guess.value = "";
+      message.textContent = "New game — start guessing!";
+    });
+  </script>
+</body>
+</html>
