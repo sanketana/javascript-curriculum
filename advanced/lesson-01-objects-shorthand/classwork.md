@@ -100,6 +100,24 @@ Everything is in this lesson's `code/` folder:
 - `style.css` — the card grid styling (already done for you, so the focus stays on JavaScript)
 - `app.js` — the in-class build, in the four steps above
 - `homework.html` + `homework.js` — for homework; see `homework.md`
+- `practice.html` — the optional extra-practice project (self-contained); see the next section
+
+## Additional Practice Project — Squad Builder (for fast finishers)
+
+*Optional. Reach for this when a student finishes the main build with time to spare — it fills the rest of the hour with a fresh, harder challenge that uses only today's tools and no new syntax.*
+
+You've built the Character Card Explorer. Now build a **Squad Builder**: a roster of players for a football or esports team, each player an object with `name`, `position`, `rating`, and `goals`. Open `code/practice.html` with Live Server — it's a single self-contained file, so everything lives in one place.
+
+There are three steps up from the main lesson, all built from things you already know:
+
+1. **Add a player with a builder.** `addPlayer(...)` returns an object using property shorthand, and `push` drops it into the squad — the same two moves you used for Tanjiro, now working together.
+2. **Find the MVP with a loop.** `findMVP` walks the squad with a plain `for...of` loop, keeping track of the best-rated player so far. No new tool — just a loop and a comparison you've written many times, now looping over *objects* instead of numbers.
+3. **Choose the stat with a variable — the real job of bracket notation.** Notice the line `const statToShow = "rating";`. Because the key lives in a *variable*, the cards read it with `p[statToShow]`, not `p.rating`. Change that one word to `"goals"` or `"position"`, refresh, and every card updates. This is the case the main lesson promised you: bracket notation is what you use when you don't know until runtime which key you want. Dot notation simply can't do this.
+
+**Challenges to push further** (pick any):
+- Add a fifth player, then a fifth key (`club`, `country`, or `number`) — confirm nothing breaks.
+- Make `findMVP` find the **top scorer** instead (highest `goals`). What's the smallest change?
+- Add a second line under the MVP that names the player with the *lowest* rating.
 
 ---
 
@@ -120,4 +138,4 @@ Everything is in this lesson's `code/` folder:
 - *"Why build the HTML the ugly way if there's a nicer way?"* This is the point. Tell them you want them to feel the problem so the solution lands. Resist demoing template literals early.
 
 **Pacing note**
-If the student is quick, let them add three or four of their own characters and re-render — extra reps on object literals are never wasted. If they're slower, it's fine to end at "cards on the page" and leave `push`/`makeCharacter` for a quick recap next session.
+If the student is quick, first let them add three or four of their own characters and re-render — extra reps on object literals are never wasted. If that isn't enough to fill the hour, move them onto the **Squad Builder** extra-practice project (its own section above, file `code/practice.html`): it reuses today's tools but adds a find-the-best loop and the first genuinely useful case of bracket notation, so a strong student stays stretched rather than idling. If the student is slower, skip Squad Builder entirely — it is never required — and it's fine to end at "cards on the page," leaving `push`/`makeCharacter` for a quick recap next session.

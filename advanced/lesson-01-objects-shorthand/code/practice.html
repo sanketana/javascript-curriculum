@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Squad Builder — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1220;
+      color: #e8e9f3;
+    }
+    header { padding: 24px; text-align: center; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    #mvp {
+      text-align: center;
+      color: #ffd166;
+      font-weight: 600;
+      margin: 0 0 8px;
+    }
+    #squad {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+      padding: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #1b1f36;
+      border: 1px solid #2b3157;
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .card h2 { margin: 0 0 8px; font-size: 1.1rem; }
+    .card p { margin: 4px 0; color: #b9bee0; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Squad Builder</h1>
+    <p>Extra practice — same tools as Session 1, one step further</p>
+  </header>
+
+  <p id="mvp"></p>
+  <main id="squad"></main>
+
+  <script>
+    // Squad Builder — extra practice for Session 1.
+    // Everything here uses only today's tools: objects, arrays of objects,
+    // property shorthand, dot and bracket access, and a plain loop. No new syntax.
+
+    // 1. Build a squad: an array of player objects.
+    const squad = [
+      { name: "Aria",  position: "Striker",    rating: 88, goals: 24 },
+      { name: "Kento", position: "Midfielder", rating: 91, goals: 9  },
+      { name: "Diego", position: "Keeper",     rating: 85, goals: 0  },
+    ];
+
+    // 2. A builder that uses property shorthand, then adds a player.
+    function addPlayer(name, position, rating, goals) {
+      return { name, position, rating, goals };
+    }
+    squad.push(addPlayer("Mina", "Defender", 87, 3));
+
+    // 3. Find the MVP: the highest-rated player.
+    //    A plain loop — exactly the kind you already know.
+    function findMVP(players) {
+      let best = players[0];
+      for (const p of players) {
+        if (p.rating > best.rating) {
+          best = p;
+        }
+      }
+      return best;
+    }
+
+    // 4. Here is where BRACKET notation finally earns its place.
+    //    We decide WHICH stat to show by storing the key in a variable.
+    //    Change this one word to "goals" or "position" and every card updates.
+    const statToShow = "rating";
+
+    const squadEl = document.querySelector("#squad");
+    let html = "";
+    for (const p of squad) {
+      html += "<div class='card'>" +
+                "<h2>" + p.name + "</h2>" +
+                "<p>" + p.position + "</p>" +
+                "<p>" + statToShow + ": " + p[statToShow] + "</p>" +
+              "</div>";
+    }
+    squadEl.innerHTML = html;
+
+    const mvp = findMVP(squad);
+    document.querySelector("#mvp").textContent =
+      "MVP: " + mvp.name + " (" + mvp.rating + ")";
+  </script>
+</body>
+</html>
