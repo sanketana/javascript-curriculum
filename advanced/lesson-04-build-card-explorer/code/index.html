@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Character Card Explorer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Character Card Explorer</h1>
+    <p id="summary"></p>
+  </header>
+
+  <section class="controls">
+    <input id="search" type="text" placeholder="Search by name or anime..." />
+
+    <form id="add-form" autocomplete="off">
+      <input id="name" placeholder="Name" required />
+      <input id="anime" placeholder="Anime" required />
+      <input id="power" type="number" placeholder="Power (optional)" />
+      <input id="role" placeholder="Role (optional)" />
+      <button type="submit">Add character</button>
+    </form>
+  </section>
+
+  <main id="board"></main>
+
+  <script src="app.js"></script>
+</body>
+</html>

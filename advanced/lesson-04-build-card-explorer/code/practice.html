@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Watchlist — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1220;
+      color: #e8e9f3;
+    }
+    header { padding: 24px 24px 8px; text-align: center; }
+    header h1 { margin: 0 0 4px; }
+    #summary { margin: 0; color: #9aa0c3; }
+    #add-form {
+      max-width: 700px;
+      margin: 8px auto;
+      padding: 0 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    #add-form input {
+      flex: 1 1 120px;
+      min-width: 0;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #2b3157;
+      background: #12162a;
+      color: #e8e9f3;
+    }
+    #add-form button {
+      padding: 10px 16px;
+      border: none;
+      border-radius: 8px;
+      background: #6c5ce7;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      padding: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      color: #7f86b0;
+      padding: 32px;
+    }
+    .card {
+      background: #1b1f36;
+      border: 1px solid #2b3157;
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .card h2 { margin: 0 0 4px; font-size: 1.05rem; }
+    .card p { margin: 0 0 12px; color: #9aa0c3; font-size: 0.85rem; }
+    .remove {
+      padding: 6px 12px;
+      border: 1px solid #43406b;
+      border-radius: 8px;
+      background: transparent;
+      color: #b9bee0;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .remove:hover { background: #2a2050; color: #fff; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>My Watchlist</h1>
+    <p id="summary"></p>
+  </header>
+
+  <form id="add-form" autocomplete="off">
+    <input id="title" placeholder="Title" required />
+    <input id="year" type="number" placeholder="Year (optional)" />
+    <input id="genre" placeholder="Genre (optional)" />
+    <button type="submit">Add</button>
+  </form>
+
+  <main id="list"></main>
+
+  <script>
+    // Watchlist — extra practice for Session 4.
+    // Same tools as the main build (objects, template literals, spread, defaults,
+    // event handling). The step up: a REMOVE button on every card, handled by a
+    // single listener on the container — the "event delegation" pattern.
+
+    let movies = [
+      { title: "Spirited Away", year: 2001, genre: "Fantasy" },
+      { title: "Your Name",     year: 2016, genre: "Romance" },
+      { title: "Akira",         year: 1988, genre: "Sci-Fi"  },
+    ];
+
+    function movieCard(m, index) {
+      const { title, year, genre } = m;
+      // data-index remembers WHICH movie this button belongs to.
+      return `
+        <div class="card">
+          <h2>${title}</h2>
+          <p>${genre} &middot; ${year}</p>
+          <button class="remove" data-index="${index}">Remove</button>
+        </div>
+      `;
+    }
+
+    const list = document.querySelector("#list");
+    const summary = document.querySelector("#summary");
+
+    function render() {
+      if (movies.length === 0) {
+        list.innerHTML = `<p class="empty">Your watchlist is empty. Add something!</p>`;
+      } else {
+        let html = "";
+        for (let i = 0; i < movies.length; i++) {
+          html += movieCard(movies[i], i);
+        }
+        list.innerHTML = html;
+      }
+      summary.textContent = `${movies.length} in your watchlist`;
+    }
+
+    // ADD
+    const form = document.querySelector("#add-form");
+    const titleInput = document.querySelector("#title");
+    const yearInput = document.querySelector("#year");
+    const genreInput = document.querySelector("#genre");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const newMovie = {
+        title: titleInput.value.trim(),
+        year: yearInput.value ? Number(yearInput.value) : "—",
+        genre: genreInput.value.trim() || "Unknown",
+      };
+      movies = [...movies, newMovie];
+      form.reset();
+      render();
+    });
+
+    // REMOVE via event delegation: ONE listener on the container handles every
+    // card's button — including cards added after the page loaded.
+    list.addEventListener("click", function (event) {
+      if (event.target.classList.contains("remove")) {
+        const index = Number(event.target.dataset.index);
+        const next = [];
+        for (let i = 0; i < movies.length; i++) {
+          if (i !== index) next.push(movies[i]);
+        }
+        movies = next;
+        render();
+      }
+    });
+
+    render();
+  </script>
+</body>
+</html>
