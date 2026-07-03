@@ -34,7 +34,7 @@ Status values: `todo` · `done`
 | S | Topic | Status |
 |---|-------|--------|
 | 5 | arrow & anonymous functions + higher-order functions | done |
-| 6 | callbacks *(explainer)* | todo |
+| 6 | callbacks *(explainer)* | done |
 | 7 | closures *(explainer)* | todo |
 | 8 | `this` *(explainer)* + mini-build | todo |
 

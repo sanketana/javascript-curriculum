@@ -1,0 +1,41 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #1b1f36;
+  color: #e8e9f3;
+}
+
+header { padding: 24px; text-align: center; }
+header h1 { margin: 0 0 4px; }
+header p { margin: 0; color: #9aa0c3; }
+
+main {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px;
+  text-align: center;
+}
+
+#display {
+  font-size: 5rem;
+  font-weight: 800;
+  margin: 24px 0;
+  color: #a29bfe;
+  min-height: 1.2em;
+}
+
+#start {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 10px;
+  background: #6c5ce7;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+#start:hover { background: #5a4bd1; }
+
+.hint { margin-top: 24px; color: #7f86b0; font-size: 0.85rem; }

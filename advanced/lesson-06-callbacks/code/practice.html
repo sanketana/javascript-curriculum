@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reaction Timer — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #1b1f36;
+      color: #e8e9f3;
+      text-align: center;
+    }
+    header { padding: 24px; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    #pad {
+      max-width: 420px;
+      height: 260px;
+      margin: 24px auto;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      cursor: pointer;
+      user-select: none;
+      background: #3a2f6b;
+    }
+    #result { font-size: 1.2rem; color: #a29bfe; min-height: 1.4em; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Reaction Timer</h1>
+    <p>Extra practice — callbacks, one step further</p>
+  </header>
+
+  <div id="pad">Click to start</div>
+  <p id="result"></p>
+
+  <script>
+    // Reaction Timer — extra practice for Session 6.
+    // Same tools as today: callbacks and setTimeout. The step up: a callback
+    // that fires after a RANDOM delay, and measuring the time until you react.
+
+    const pad = document.querySelector("#pad");
+    const result = document.querySelector("#result");
+
+    let state = "idle";     // idle → waiting → ready
+    let startTime = 0;
+    let greenTimer = 0;     // id of the pending "turn green" timeout
+
+    pad.addEventListener("click", () => {
+      if (state === "idle") {
+        // Arm the game. The setTimeout callback is "call me back when it's time
+        // to turn green" — we don't know exactly when; the timer decides.
+        state = "waiting";
+        pad.textContent = "Wait for green...";
+        pad.style.background = "#c0392b";
+        result.textContent = "";
+
+        const delay = 1000 + Math.random() * 3000;   // 1 to 4 seconds
+        greenTimer = setTimeout(() => {
+          state = "ready";
+          pad.textContent = "CLICK NOW!";
+          pad.style.background = "#27ae60";
+          startTime = Date.now();
+        }, delay);
+
+      } else if (state === "waiting") {
+        // Clicked too early — before the callback fired. Cancel the pending
+        // green timer so it doesn't fire after we reset.
+        clearTimeout(greenTimer);
+        state = "idle";
+        pad.textContent = "Too soon! Click to start";
+        pad.style.background = "#3a2f6b";
+
+      } else if (state === "ready") {
+        // The green callback has fired; measure how long it took to react.
+        const reaction = Date.now() - startTime;
+        result.textContent = "Your reaction: " + reaction + " ms";
+        state = "idle";
+        pad.textContent = "Click to start";
+        pad.style.background = "#3a2f6b";
+      }
+    });
+  </script>
+</body>
+</html>
