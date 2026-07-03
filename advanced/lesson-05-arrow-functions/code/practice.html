@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text Transformer — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #1b1f36;
+      color: #e8e9f3;
+    }
+    header { padding: 24px; text-align: center; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    main { max-width: 640px; margin: 0 auto; padding: 24px; }
+    textarea {
+      width: 100%;
+      min-height: 90px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #2b3157;
+      background: #12162a;
+      color: #e8e9f3;
+      font-size: 1rem;
+      resize: vertical;
+    }
+    #buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 16px 0;
+    }
+    #buttons button {
+      padding: 9px 16px;
+      border: none;
+      border-radius: 10px;
+      background: #6c5ce7;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #buttons button:hover { background: #5a4bd1; }
+    #output {
+      padding: 14px;
+      border-radius: 10px;
+      background: #12162a;
+      min-height: 3em;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Text Transformer</h1>
+    <p>Extra practice — functions as data, one step further</p>
+  </header>
+
+  <main>
+    <textarea id="input">The quick brown fox</textarea>
+    <div id="buttons"></div>
+    <div id="output"></div>
+  </main>
+
+  <script>
+    // Text Transformer — extra practice for Session 5.
+    // Same tools as today: arrow functions, anonymous functions, higher-order
+    // functions. The step up: functions stored AS DATA in an object, and chosen
+    // by key at runtime (remember bracket notation from Session 1?).
+
+    // An object whose VALUES are functions. Each one takes a string, returns one.
+    const transforms = {
+      "UPPERCASE": (s) => s.toUpperCase(),
+      "lowercase": (s) => s.toLowerCase(),
+      "Reverse":   (s) => s.split("").reverse().join(""),
+      "Shout":     (s) => s.toUpperCase() + "!!!",
+      "snake_case":(s) => s.trim().split(" ").join("_"),
+    };
+
+    const input = document.querySelector("#input");
+    const output = document.querySelector("#output");
+    const buttons = document.querySelector("#buttons");
+
+    // apply() is a higher-order helper: hand it a transform function and it runs
+    // that function on whatever is currently in the textarea.
+    const apply = (transformFn) => {
+      output.textContent = transformFn(input.value);
+    };
+
+    // Build one button per transform. We look the function up BY KEY — the same
+    // bracket-notation idea from Session 1, now used to pick a function.
+    for (const name of Object.keys(transforms)) {
+      const button = document.createElement("button");
+      button.textContent = name;
+      button.addEventListener("click", () => apply(transforms[name]));
+      buttons.appendChild(button);
+    }
+  </script>
+</body>
+</html>
