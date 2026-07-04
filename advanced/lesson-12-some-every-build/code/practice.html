@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Steps Tracker — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1220;
+      color: #e8e9f3;
+    }
+    header { padding: 24px; text-align: center; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    main { max-width: 480px; margin: 0 auto; padding: 24px; }
+    #stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+    .stat {
+      background: #1b1f36; border: 1px solid #2b3157; border-radius: 10px;
+      padding: 12px 6px; text-align: center; font-size: 0.7rem; color: #9aa0c3;
+    }
+    .stat span { display: block; font-size: 1.15rem; font-weight: 800; color: #a29bfe; margin-bottom: 2px; }
+    #badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+    .badge { font-size: 0.78rem; font-weight: 600; padding: 5px 12px; border-radius: 99px; }
+    .badge.yes { background: #16341f; color: #4ade80; border: 1px solid #1f5130; }
+    .badge.no  { background: #341a1a; color: #f87171; border: 1px solid #512727; }
+    #days { display: flex; flex-direction: column; gap: 6px; }
+    .day {
+      display: grid; grid-template-columns: 3ch 1fr auto; gap: 12px; align-items: center;
+      background: #1b1f36; border: 1px solid #2b3157; border-radius: 10px; padding: 10px 14px;
+    }
+    .day .steps { font-weight: 700; }
+    .day .met { color: #4ade80; font-size: 0.8rem; }
+    .day .miss { color: #f87171; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Weekly Steps Tracker</h1>
+    <p>Extra practice — the Arc C toolkit in a fresh domain</p>
+  </header>
+
+  <main>
+    <div id="stats"></div>
+    <div id="badges"></div>
+    <div id="days"></div>
+  </main>
+
+  <script>
+    // Steps Tracker — extra practice for Session 12 (the build day).
+    // Reuses the WHOLE Arc C toolkit — map, filter, reduce, some, every — on a
+    // brand-new dataset. The step up is putting all five methods together
+    // yourself in an unfamiliar domain.
+
+    const week = [
+      { day: "Mon", steps: 8200  },
+      { day: "Tue", steps: 11500 },
+      { day: "Wed", steps: 9800  },
+      { day: "Thu", steps: 13200 },
+      { day: "Fri", steps: 15400 },
+      { day: "Sat", steps: 6100  },
+      { day: "Sun", steps: 10250 },
+    ];
+    const GOAL = 10000;
+
+    // reduce → totals; reduce again → the best day
+    const total = week.reduce((sum, d) => sum + d.steps, 0);
+    const average = Math.round(total / week.length);
+    const bestDay = week.reduce((best, d) => (d.steps > best.steps ? d : best), week[0]);
+
+    // filter → how many days hit the goal
+    const onTarget = week.filter((d) => d.steps >= GOAL).length;
+
+    // some / every → yes-no summaries
+    const goalEveryDay = week.every((d) => d.steps >= GOAL);
+    const hadBigDay = week.some((d) => d.steps >= 15000);
+
+    document.querySelector("#stats").innerHTML = `
+      <div class="stat"><span>${total.toLocaleString()}</span>total</div>
+      <div class="stat"><span>${average.toLocaleString()}</span>avg/day</div>
+      <div class="stat"><span>${bestDay.day}</span>best day</div>
+      <div class="stat"><span>${onTarget}/7</span>on target</div>
+    `;
+
+    document.querySelector("#badges").innerHTML = `
+      <span class="badge ${goalEveryDay ? "yes" : "no"}">${goalEveryDay ? "Goal met every day" : "Missed the goal some days"}</span>
+      <span class="badge ${hadBigDay ? "yes" : "no"}">${hadBigDay ? "Had a 15k day" : "No 15k days"}</span>
+    `;
+
+    // map → one row per day
+    document.querySelector("#days").innerHTML = week
+      .map((d) => `
+        <div class="day">
+          <span>${d.day}</span>
+          <span class="steps">${d.steps.toLocaleString()}</span>
+          <span class="${d.steps >= GOAL ? "met" : "miss"}">${d.steps >= GOAL ? "goal met" : "under goal"}</span>
+        </div>
+      `)
+      .join("");
+  </script>
+</body>
+</html>

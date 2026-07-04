@@ -1,0 +1,77 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0f1220;
+  color: #e8e9f3;
+}
+
+header { padding: 24px; text-align: center; }
+header h1 { margin: 0 0 4px; }
+header p { margin: 0; color: #9aa0c3; }
+
+main { max-width: 600px; margin: 0 auto; padding: 24px; }
+
+#search {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #2b3157;
+  background: #12162a;
+  color: #e8e9f3;
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+}
+
+#stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.stat {
+  background: #1b1f36;
+  border: 1px solid #2b3157;
+  border-radius: 10px;
+  padding: 12px 8px;
+  text-align: center;
+  font-size: 0.72rem;
+  color: #9aa0c3;
+}
+.stat span {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #a29bfe;
+  margin-bottom: 2px;
+}
+
+#badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 99px;
+}
+.badge.yes { background: #16341f; color: #4ade80; border: 1px solid #1f5130; }
+.badge.no  { background: #341a1a; color: #f87171; border: 1px solid #512727; }
+
+#board { display: flex; flex-direction: column; gap: 6px; }
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+  background: #1b1f36;
+  border: 1px solid #2b3157;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+}
+.row .title { font-weight: 600; }
+.row .artist { color: #9aa0c3; }
+.row .dur { color: #b9bee0; }
+.row .plays { color: #a29bfe; font-weight: 700; }
+
+.empty { text-align: center; color: #7f86b0; padding: 24px; }
