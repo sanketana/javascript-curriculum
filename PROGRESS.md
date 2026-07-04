@@ -3,6 +3,22 @@
 This is the ledger the autonomous loop reads (`/generate-lesson`). It is the
 single source of truth for _what is done_ and _what may run next_.
 
+## ▶ Resume here (as of 2026-07-05)
+
+Done: **Arcs A–D complete, Sessions 1–15** — all committed and pushed to
+`origin/main`. The loop is halted at the **Arc D checkpoint (PENDING)**.
+
+To continue into **Arc E** (Anime Explorer, Sessions 16–21):
+1. Reopen: `cd` into this repo, then `claude --continue` (or a fresh session — the
+   ledger below is all that's needed).
+2. Approve Arc D: change its Checkpoint line to `APPROVED (human, YYYY-MM-DD)`.
+3. Run `/loop /generate-lesson` — it picks up at **Session 16 (try/catch + JSON)**
+   and halts again after the Session 21 build day.
+
+Note: `/loop` is session-local — reopening does not auto-resume it; re-run the
+command above. Arc E makes live Jikan API calls, so do the real end-to-end fetch
+test yourself at the checkpoint (the reviewers don't make network calls).
+
 ## How the loop uses this file
 
 - **Next lesson** = the lowest session number whose status is `todo`.
