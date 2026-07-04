@@ -60,7 +60,7 @@ Status values: `todo` · `done`
 | --- | ------------------------------------------------ | ------ |
 | 13  | ES6 classes _(explainer)_                        | done   |
 | 14  | instances, static vs instance, light inheritance | done   |
-| 15  | build day                                        | todo   |
+| 15  | build day                                        | done   |
 
 ### Arc E — Async & the Real World · _Anime Explorer (Jikan API)_
 

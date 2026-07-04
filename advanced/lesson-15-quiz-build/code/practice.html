@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Pet — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1220;
+      color: #e8e9f3;
+      text-align: center;
+    }
+    header { padding: 24px; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    main { max-width: 400px; margin: 0 auto; padding: 24px; }
+    #mood { font-size: 1.4rem; font-weight: 800; color: #ffd166; min-height: 1.4em; margin-bottom: 16px; }
+    .stat { text-align: left; margin-bottom: 12px; }
+    .stat .label { display: flex; justify-content: space-between; font-size: 0.85rem; color: #9aa0c3; margin-bottom: 4px; }
+    .bar { height: 12px; background: #2b3157; border-radius: 99px; overflow: hidden; }
+    .bar span { display: block; height: 100%; transition: width 0.2s; }
+    .hunger span { background: #f87171; }
+    .happy span { background: #4ade80; }
+    .energy span { background: #60a5fa; }
+    .actions { margin-top: 20px; }
+    button {
+      padding: 10px 18px; margin: 5px; border: none; border-radius: 10px;
+      background: #6c5ce7; color: #fff; font-weight: 600; cursor: pointer;
+    }
+    button:hover { background: #5a4bd1; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Virtual Pet</h1>
+    <p>Extra practice — a stateful class in a fresh domain</p>
+  </header>
+
+  <main>
+    <div id="mood"></div>
+    <div id="stats"></div>
+    <div class="actions">
+      <button id="feed">Feed</button>
+      <button id="play">Play</button>
+      <button id="rest">Rest</button>
+    </div>
+  </main>
+
+  <script>
+    // Virtual Pet — extra practice for Session 15 (build day).
+    // Reuses the whole OOP toolkit: a class that holds STATE (several stats) and
+    // METHODS that change it. The step up is many interacting stats kept in
+    // range, plus a derived "mood" computed from them.
+
+    class Pet {
+      constructor(name) {
+        this.name = name;
+        this.hunger = 50;      // higher = hungrier
+        this.happiness = 50;
+        this.energy = 50;
+      }
+
+      // A small helper method the others reuse, to keep a stat within 0–100.
+      clamp(value) {
+        return Math.max(0, Math.min(100, value));
+      }
+
+      feed() {
+        this.hunger = this.clamp(this.hunger - 25);
+        this.energy = this.clamp(this.energy + 5);
+      }
+      play() {
+        this.happiness = this.clamp(this.happiness + 20);
+        this.energy = this.clamp(this.energy - 15);
+        this.hunger = this.clamp(this.hunger + 10);
+      }
+      rest() {
+        this.energy = this.clamp(this.energy + 30);
+        this.hunger = this.clamp(this.hunger + 5);
+      }
+
+      // A method that DERIVES a value from the pet's own state.
+      mood() {
+        if (this.hunger > 80) return "Starving";
+        if (this.energy < 20) return "Exhausted";
+        if (this.happiness > 70) return "Happy";
+        return "Content";
+      }
+    }
+
+    const pet = new Pet("Pixel");
+
+    const bar = (cls, label, value) => `
+      <div class="stat">
+        <div class="label"><span>${label}</span><span>${value}</span></div>
+        <div class="bar ${cls}"><span style="width: ${value}%"></span></div>
+      </div>
+    `;
+
+    const render = () => {
+      document.querySelector("#mood").textContent = `${pet.name} is ${pet.mood()}`;
+      document.querySelector("#stats").innerHTML =
+        bar("hunger", "Hunger", pet.hunger) +
+        bar("happy", "Happiness", pet.happiness) +
+        bar("energy", "Energy", pet.energy);
+    };
+
+    document.querySelector("#feed").addEventListener("click", () => { pet.feed(); render(); });
+    document.querySelector("#play").addEventListener("click", () => { pet.play(); render(); });
+    document.querySelector("#rest").addEventListener("click", () => { pet.rest(); render(); });
+
+    render();
+  </script>
+</body>
+</html>
