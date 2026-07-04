@@ -49,7 +49,7 @@ Status values: `todo` · `done`
 | --- | ----------------------------- | ------ |
 | 9   | `forEach` + `map`             | done   |
 | 10  | `filter` + `find`/`findIndex` | done   |
-| 11  | `reduce` _(explainer)_        | todo   |
+| 11  | `reduce` _(explainer)_        | done   |
 | 12  | `some`/`every` + build day    | todo   |
 
 ### Arc D — Objects at Scale: Classes & OOP · _Quiz Game Engine_

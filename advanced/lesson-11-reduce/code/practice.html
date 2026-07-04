@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Receipt — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1220;
+      color: #e8e9f3;
+    }
+    header { padding: 24px; text-align: center; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    main { max-width: 420px; margin: 0 auto; padding: 24px; }
+    .receipt {
+      background: #1b1f36;
+      border: 1px solid #2b3157;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .line {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px dashed #2b3157;
+      font-size: 0.9rem;
+    }
+    .line .qty { color: #9aa0c3; }
+    .totals { margin-top: 16px; }
+    .totals .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+      color: #b9bee0;
+    }
+    .totals .grand {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #a29bfe;
+      border-top: 2px solid #2b3157;
+      margin-top: 8px;
+      padding-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Receipt</h1>
+    <p>Extra practice — reduce, one step further (many stats, one pass)</p>
+  </header>
+
+  <main>
+    <div class="receipt">
+      <div id="lines"></div>
+      <div id="totals" class="totals"></div>
+    </div>
+  </main>
+
+  <script>
+    // Receipt — extra practice for Session 11.
+    // Same tool as today: reduce. The step up: ONE reduce that accumulates
+    // SEVERAL running values at once (total money AND total units), by using an
+    // object as the accumulator — "many stats in a single pass".
+
+    const cart = [
+      { name: "Notebook", price: 60,  qty: 3 },
+      { name: "Pen",      price: 15,  qty: 5 },
+      { name: "Marker",   price: 40,  qty: 2 },
+      { name: "Folder",   price: 90,  qty: 1 },
+    ];
+
+    // One pass, two running totals living in one accumulator object.
+    const summary = cart.reduce(
+      (acc, item) => {
+        acc.total = acc.total + item.price * item.qty;
+        acc.units = acc.units + item.qty;
+        return acc;                 // hand the accumulator to the next step
+      },
+      { total: 0, units: 0 }        // the starting accumulator
+    );
+
+    // Line items (map + join, from Session 9).
+    const lines = document.querySelector("#lines");
+    lines.innerHTML = cart
+      .map(
+        (item) => `
+        <div class="line">
+          <span>${item.name}</span>
+          <span class="qty">x${item.qty}</span>
+          <span>₹${item.price * item.qty}</span>
+        </div>`
+      )
+      .join("");
+
+    const totals = document.querySelector("#totals");
+    totals.innerHTML = `
+      <div class="row"><span>Items</span><span>${summary.units}</span></div>
+      <div class="row grand"><span>Total</span><span>₹${summary.total}</span></div>
+    `;
+  </script>
+</body>
+</html>
