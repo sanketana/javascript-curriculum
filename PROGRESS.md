@@ -29,14 +29,14 @@ Status values: `todo` · `done`
 | 4 | build day (interactive Card Explorer) | done |
 
 ### Arc B — Thinking in Functions · *Widget Workshop*
-**Checkpoint: PENDING**
+**Checkpoint: PENDING (awaiting human review)**
 
 | S | Topic | Status |
 |---|-------|--------|
 | 5 | arrow & anonymous functions + higher-order functions | done |
 | 6 | callbacks *(explainer)* | done |
 | 7 | closures *(explainer)* | done |
-| 8 | `this` *(explainer)* + mini-build | todo |
+| 8 | `this` *(explainer)* + mini-build | done |
 
 ### Arc C — Data Wrangling · *Leaderboard / Playlist Analyzer*
 **Checkpoint: PENDING**

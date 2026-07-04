@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Traffic Light — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #1b1f36;
+      color: #e8e9f3;
+      text-align: center;
+    }
+    header { padding: 24px; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    #lamp {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 32px auto 16px;
+      background: #555;
+      transition: background 0.2s ease;
+    }
+    #label { font-size: 1.4rem; font-weight: 700; min-height: 1.4em; }
+    button {
+      padding: 10px 20px;
+      margin: 8px;
+      border: none;
+      border-radius: 8px;
+      background: #6c5ce7;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #5a4bd1; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Traffic Light</h1>
+    <p>Extra practice — <code>this</code>, one step further</p>
+  </header>
+
+  <div id="lamp"></div>
+  <div id="label"></div>
+  <button id="start">Start</button>
+  <button id="stop">Stop</button>
+
+  <script>
+    // Traffic Light — extra practice for Session 8.
+    // Same tools as today: an object with methods that use `this`. The step up:
+    // the light re-schedules ITSELF on a loop, and the arrow callback is what
+    // keeps `this` pointing at the light each time. Swap the arrow for a regular
+    // function and the whole thing breaks — that's the lesson made tangible.
+
+    const light = {
+      colors: ["green", "orange", "red"],
+      durations: { green: 2500, orange: 1000, red: 2500 },
+      index: 0,
+      running: false,
+      timerId: null,
+      lamp: document.querySelector("#lamp"),
+      label: document.querySelector("#label"),
+
+      current() {
+        return this.colors[this.index];
+      },
+      render() {
+        this.lamp.style.background = this.current();
+        this.label.textContent = this.current().toUpperCase();
+      },
+      next() {
+        this.index = (this.index + 1) % this.colors.length;
+        this.render();
+      },
+      cycle() {
+        // Arrow callback: `this` is still the light, borrowed from cycle().
+        this.timerId = setTimeout(() => {
+          this.next();
+          if (this.running) this.cycle();   // schedule the next change
+        }, this.durations[this.current()]);
+      },
+      start() {
+        if (this.running) return;
+        this.running = true;
+        this.render();
+        this.cycle();
+      },
+      stop() {
+        this.running = false;
+        clearTimeout(this.timerId);
+      },
+    };
+
+    light.render();
+    document.querySelector("#start").addEventListener("click", () => light.start());
+    document.querySelector("#stop").addEventListener("click", () => light.stop());
+  </script>
+</body>
+</html>
