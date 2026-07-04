@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shapes — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1220;
+      color: #e8e9f3;
+    }
+    header { padding: 24px; text-align: center; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    main { max-width: 460px; margin: 0 auto; padding: 24px; }
+    #shapes { display: flex; flex-direction: column; gap: 10px; }
+    .shape {
+      display: flex;
+      justify-content: space-between;
+      background: #1b1f36;
+      border: 1px solid #2b3157;
+      border-radius: 10px;
+      padding: 14px 18px;
+    }
+    .shape .name { font-weight: 600; }
+    .shape .area { color: #a29bfe; font-weight: 700; }
+    #total {
+      margin-top: 16px;
+      text-align: right;
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #4ade80;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Shape Areas</h1>
+    <p>Extra practice — inheritance + polymorphism</p>
+  </header>
+
+  <main>
+    <div id="shapes"></div>
+    <div id="total"></div>
+  </main>
+
+  <script>
+    // Shapes — extra practice for Session 14.
+    // Same tools as today: inheritance (extends/super) and static methods.
+    // The step up is POLYMORPHISM — a whole array of different shapes, each
+    // answering the SAME call, area(), in its own way.
+
+    class Shape {
+      constructor(name) {
+        this.name = name;
+      }
+      area() {
+        return 0;             // base default; each subclass overrides this
+      }
+      // static helper: total area across many shapes (about shapes in general)
+      static totalArea(shapes) {
+        return shapes.reduce((sum, s) => sum + s.area(), 0);
+      }
+    }
+
+    class Circle extends Shape {
+      constructor(radius) {
+        super("Circle");
+        this.radius = radius;
+      }
+      area() {
+        return Math.PI * this.radius * this.radius;
+      }
+    }
+
+    class Rectangle extends Shape {
+      constructor(width, height) {
+        super("Rectangle");
+        this.width = width;
+        this.height = height;
+      }
+      area() {
+        return this.width * this.height;
+      }
+    }
+
+    class Triangle extends Shape {
+      constructor(base, height) {
+        super("Triangle");
+        this.base = base;
+        this.height = height;
+      }
+      area() {
+        return 0.5 * this.base * this.height;
+      }
+    }
+
+    // A mixed array — different shapes, treated the same way.
+    const shapes = [new Circle(5), new Rectangle(4, 6), new Triangle(6, 8)];
+
+    // POLYMORPHISM: one call, s.area(), runs whichever subclass's version fits.
+    document.querySelector("#shapes").innerHTML = shapes
+      .map((s) => `
+        <div class="shape">
+          <span class="name">${s.name}</span>
+          <span class="area">${s.area().toFixed(2)}</span>
+        </div>
+      `)
+      .join("");
+
+    document.querySelector("#total").textContent =
+      `Total area: ${Shape.totalArea(shapes).toFixed(2)}`;
+  </script>
+</body>
+</html>

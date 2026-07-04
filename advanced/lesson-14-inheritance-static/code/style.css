@@ -1,0 +1,50 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0f1220;
+  color: #e8e9f3;
+}
+
+header { padding: 24px; text-align: center; }
+header h1 { margin: 0 0 4px; }
+header p { margin: 0; color: #9aa0c3; }
+
+main { max-width: 620px; margin: 0 auto; padding: 24px; }
+
+#scoreboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.player {
+  background: #1b1f36;
+  border: 1px solid #2b3157;
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+}
+.player.leader {
+  border-color: #ffd166;
+  box-shadow: 0 0 0 1px #ffd166 inset;
+}
+
+.player h2 { margin: 0 0 6px; font-size: 1.05rem; }
+.player .crown { color: #ffd166; font-size: 0.75rem; height: 1em; display: block; margin-bottom: 4px; }
+.player .score { font-size: 2.4rem; font-weight: 800; color: #a29bfe; margin-bottom: 10px; }
+
+.player button {
+  padding: 8px 14px;
+  margin: 3px;
+  border: none;
+  border-radius: 8px;
+  background: #6c5ce7;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+.player button:hover { background: #5a4bd1; }
+
+.hint { margin-top: 24px; color: #7f86b0; font-size: 0.85rem; text-align: center; }
