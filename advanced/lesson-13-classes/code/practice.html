@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Battle Arena — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1220;
+      color: #e8e9f3;
+      text-align: center;
+    }
+    header { padding: 24px; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    main { max-width: 520px; margin: 0 auto; padding: 24px; }
+    #arena { display: flex; gap: 16px; justify-content: center; margin-bottom: 20px; }
+    .fighter {
+      flex: 1;
+      background: #1b1f36;
+      border: 1px solid #2b3157;
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .fighter h2 { margin: 0 0 10px; font-size: 1.1rem; }
+    .bar { height: 12px; background: #2b3157; border-radius: 99px; overflow: hidden; }
+    .bar span { display: block; height: 100%; background: linear-gradient(90deg, #4ade80, #22c55e); transition: width 0.2s; }
+    .hp { margin-top: 6px; color: #9aa0c3; font-size: 0.85rem; }
+    button {
+      padding: 10px 18px; margin: 6px; border: none; border-radius: 10px;
+      background: #6c5ce7; color: #fff; font-weight: 600; cursor: pointer;
+    }
+    button:disabled { opacity: 0.4; cursor: default; }
+    #log { margin-top: 16px; min-height: 1.5em; color: #a29bfe; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Battle Arena</h1>
+    <p>Extra practice — classes, one step further (instances that interact)</p>
+  </header>
+
+  <main>
+    <div id="arena"></div>
+    <button id="heroAttack">Hero attacks</button>
+    <button id="rivalAttack">Rival attacks</button>
+    <div id="log"></div>
+  </main>
+
+  <script>
+    // Battle Arena — extra practice for Session 13.
+    // Same tool as today: classes. The step up: a method that takes ANOTHER
+    // instance as its argument, so two objects interact — hero.attack(rival).
+
+    class Fighter {
+      constructor(name, hp, power) {
+        this.name = name;
+        this.hp = hp;
+        this.maxHp = hp;
+        this.power = power;
+      }
+      // This method reaches INTO another Fighter and lowers its hp.
+      attack(other) {
+        other.hp = Math.max(0, other.hp - this.power);
+      }
+      isKO() {
+        return this.hp <= 0;
+      }
+    }
+
+    const hero = new Fighter("Hero", 100, 18);
+    const rival = new Fighter("Rival", 100, 15);
+
+    const arena = document.querySelector("#arena");
+    const log = document.querySelector("#log");
+    const heroBtn = document.querySelector("#heroAttack");
+    const rivalBtn = document.querySelector("#rivalAttack");
+
+    const fighterCard = (f) => `
+      <div class="fighter">
+        <h2>${f.name}</h2>
+        <div class="bar"><span style="width: ${(f.hp / f.maxHp) * 100}%"></span></div>
+        <div class="hp">${f.hp} / ${f.maxHp} HP</div>
+      </div>
+    `;
+
+    const render = () => {
+      arena.innerHTML = fighterCard(hero) + fighterCard(rival);
+      const over = hero.isKO() || rival.isKO();
+      heroBtn.disabled = over;
+      rivalBtn.disabled = over;
+      if (over) {
+        const winner = hero.isKO() ? rival : hero;
+        log.textContent = `${winner.name} wins!`;
+      }
+    };
+
+    heroBtn.addEventListener("click", () => {
+      hero.attack(rival);
+      log.textContent = `Hero hits Rival for ${hero.power}!`;
+      render();
+    });
+    rivalBtn.addEventListener("click", () => {
+      rival.attack(hero);
+      log.textContent = `Rival hits Hero for ${rival.power}!`;
+      render();
+    });
+
+    render();
+  </script>
+</body>
+</html>

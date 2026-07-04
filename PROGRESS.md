@@ -58,7 +58,7 @@ Status values: `todo` · `done`
 
 | S   | Topic                                            | Status |
 | --- | ------------------------------------------------ | ------ |
-| 13  | ES6 classes _(explainer)_                        | todo   |
+| 13  | ES6 classes _(explainer)_                        | done   |
 | 14  | instances, static vs instance, light inheritance | todo   |
 | 15  | build day                                        | todo   |
 
