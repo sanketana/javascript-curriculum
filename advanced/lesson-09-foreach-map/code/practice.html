@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gradebook — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1220;
+      color: #e8e9f3;
+    }
+    header { padding: 24px; text-align: center; }
+    header h1 { margin: 0 0 4px; }
+    #summary { margin: 0; color: #a29bfe; font-weight: 600; }
+    main { max-width: 480px; margin: 0 auto; padding: 24px; }
+    #list { display: flex; flex-direction: column; gap: 8px; }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 16px;
+      align-items: center;
+      background: #1b1f36;
+      border: 1px solid #2b3157;
+      border-radius: 10px;
+      padding: 12px 16px;
+    }
+    .row .marks { color: #9aa0c3; }
+    .row .grade {
+      font-weight: 800;
+      width: 2ch;
+      text-align: center;
+    }
+    .A { color: #27ae60; }
+    .B { color: #6c9ce7; }
+    .C { color: #e0a800; }
+    .F { color: #e05555; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Gradebook</h1>
+    <p id="summary"></p>
+  </header>
+
+  <main>
+    <div id="list"></div>
+  </main>
+
+  <script>
+    // Gradebook — extra practice for Session 9.
+    // Same tools as today: map and forEach. The step up: map uses a HELPER to
+    // derive a new field (a letter grade), and forEach aggregates a count.
+
+    const students = [
+      { name: "Aria",  marks: 82 },
+      { name: "Kento", marks: 35 },
+      { name: "Diego", marks: 58 },
+      { name: "Mina",  marks: 91 },
+      { name: "Ravi",  marks: 44 },
+    ];
+
+    const toGrade = (m) => {
+      if (m >= 80) return "A";
+      if (m >= 60) return "B";
+      if (m >= 40) return "C";
+      return "F";
+    };
+
+    // map: build a NEW array where each student gains a computed grade.
+    const graded = students.map((s) => {
+      return { ...s, grade: toGrade(s.marks) };
+    });
+
+    const list = document.querySelector("#list");
+    list.innerHTML = graded
+      .map((s) => `
+        <div class="row">
+          <span class="name">${s.name}</span>
+          <span class="marks">${s.marks}</span>
+          <span class="grade ${s.grade}">${s.grade}</span>
+        </div>
+      `)
+      .join("");
+
+    // forEach: walk the list to COUNT how many passed (40 or more).
+    let passed = 0;
+    students.forEach((s) => {
+      if (s.marks >= 40) {
+        passed = passed + 1;
+      }
+    });
+
+    const summary = document.querySelector("#summary");
+    summary.textContent = `${passed} of ${students.length} students passed`;
+  </script>
+</body>
+</html>
