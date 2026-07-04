@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop Filter — Extra Practice</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0f1220;
+      color: #e8e9f3;
+    }
+    header { padding: 24px; text-align: center; }
+    header h1 { margin: 0 0 4px; }
+    header p { margin: 0; color: #9aa0c3; }
+    main { max-width: 620px; margin: 0 auto; padding: 24px; }
+    .controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 16px; }
+    .controls input[type="text"] {
+      flex: 1 1 160px;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid #2b3157;
+      background: #12162a;
+      color: #e8e9f3;
+    }
+    .cat {
+      padding: 7px 13px;
+      border: 1px solid #2b3157;
+      border-radius: 99px;
+      background: transparent;
+      color: #b9bee0;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .cat.active { background: #6c5ce7; color: #fff; border-color: #6c5ce7; }
+    label { font-size: 0.85rem; color: #b9bee0; display: inline-flex; align-items: center; gap: 6px; }
+    #count { color: #9aa0c3; font-size: 0.85rem; margin: 8px 0; }
+    #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .card {
+      background: #1b1f36;
+      border: 1px solid #2b3157;
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .card h3 { margin: 0 0 4px; font-size: 1rem; }
+    .card .cat-tag { color: #9aa0c3; font-size: 0.8rem; }
+    .card .price { color: #a29bfe; font-weight: 700; margin-top: 8px; }
+    .card .out { color: #e05555; font-size: 0.75rem; margin-top: 6px; }
+    .empty { grid-column: 1 / -1; text-align: center; color: #7f86b0; padding: 24px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Shop Filter</h1>
+    <p>Extra practice — filter, one step further (combining filters)</p>
+  </header>
+
+  <main>
+    <div class="controls">
+      <input id="search" type="text" placeholder="Search products..." />
+      <label><input id="stock" type="checkbox" /> In stock only</label>
+    </div>
+    <div id="cats" class="controls"></div>
+    <p id="count"></p>
+    <div id="grid"></div>
+  </main>
+
+  <script>
+    // Shop Filter — extra practice for Session 10.
+    // Same tool as today: filter. The step up: THREE filters working together —
+    // a category, an in-stock toggle, and a search box. Real apps filter by
+    // several conditions at once, so you narrow step by step.
+
+    const products = [
+      { name: "Hoodie",    category: "Clothing",    price: 1299, inStock: true  },
+      { name: "Sneakers",  category: "Footwear",    price: 2499, inStock: false },
+      { name: "Cap",       category: "Clothing",    price: 499,  inStock: true  },
+      { name: "Backpack",  category: "Accessories", price: 1799, inStock: true  },
+      { name: "Socks",     category: "Footwear",    price: 299,  inStock: true  },
+      { name: "Watch",     category: "Accessories", price: 3999, inStock: false },
+    ];
+
+    let activeCategory = "All";
+
+    const search = document.querySelector("#search");
+    const stock = document.querySelector("#stock");
+    const grid = document.querySelector("#grid");
+    const count = document.querySelector("#count");
+    const cats = document.querySelector("#cats");
+
+    // Build the category buttons: "All" plus one per unique category.
+    const categories = ["All", "Clothing", "Footwear", "Accessories"];
+    cats.innerHTML = categories
+      .map((c) => `<button class="cat" data-cat="${c}">${c}</button>`)
+      .join("");
+
+    const card = (p) => `
+      <div class="card">
+        <h3>${p.name}</h3>
+        <span class="cat-tag">${p.category}</span>
+        <div class="price">₹${p.price}</div>
+        ${p.inStock ? "" : `<div class="out">Out of stock</div>`}
+      </div>
+    `;
+
+    const render = () => {
+      const query = search.value.toLowerCase();
+
+      // Narrow step by step — each filter passes its result to the next.
+      let shown = products;
+      if (activeCategory !== "All") {
+        shown = shown.filter((p) => p.category === activeCategory);
+      }
+      if (stock.checked) {
+        shown = shown.filter((p) => p.inStock);
+      }
+      shown = shown.filter((p) => p.name.toLowerCase().includes(query));
+
+      grid.innerHTML = shown.length
+        ? shown.map(card).join("")
+        : `<p class="empty">Nothing matches those filters.</p>`;
+      count.textContent = `${shown.length} of ${products.length} products`;
+
+      // keep the active category button highlighted
+      cats.querySelectorAll(".cat").forEach((b) => {
+        b.classList.toggle("active", b.dataset.cat === activeCategory);
+      });
+    };
+
+    cats.addEventListener("click", (event) => {
+      if (event.target.classList.contains("cat")) {
+        activeCategory = event.target.dataset.cat;
+        render();
+      }
+    });
+    search.addEventListener("input", render);
+    stock.addEventListener("change", render);
+
+    render();
+  </script>
+</body>
+</html>

@@ -48,7 +48,7 @@ Status values: `todo` · `done`
 | S   | Topic                         | Status |
 | --- | ----------------------------- | ------ |
 | 9   | `forEach` + `map`             | done   |
-| 10  | `filter` + `find`/`findIndex` | todo   |
+| 10  | `filter` + `find`/`findIndex` | done   |
 | 11  | `reduce` _(explainer)_        | todo   |
 | 12  | `some`/`every` + build day    | todo   |
 
